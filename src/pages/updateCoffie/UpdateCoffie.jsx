@@ -1,9 +1,12 @@
 import React from 'react';
 import Navbar from '../shered/navbar/Navbar';
 import Footer from '../shered/footer/Footer';
+import { useLoaderData } from 'react-router-dom';
 
 const UpdateCoffie = () => {
-    const handleAdateproducts = (event) =>{
+    const data = useLoaderData()
+    const {_id,chef,supplier,category,imgUrl} = data
+    const handleUpdateproducts = (event) =>{
         event.preventDefault()
         const form = event.target;
         const email = form.email.value
@@ -11,20 +14,20 @@ const UpdateCoffie = () => {
         const supplier = form.supplier.value
         const category = form.category.value
         const imgUrl = form.imgUrl.value
-        const newProducts = {
+        const updatedProducts = {
             email,
             chef,
             supplier,
             category,
             imgUrl
         }
-        console.log(newProducts)
-        fetch('http://localhost:5000/coffie',{
-            method:'POST',
+        console.log
+        fetch(`http://localhost:5000/updateCoffie/${_id}`,{
+            method:'PUT',
             headers:{
                 'content-type':'application/json'
             },
-            body:JSON.stringify(newProducts)
+            body:JSON.stringify(updatedProducts)
         })
         .then(res=>res.json())
         .then(data=>console.log(data))
@@ -33,7 +36,8 @@ const UpdateCoffie = () => {
     return (
         <div>
             <Navbar />
-            <form onSubmit={handleAdateproducts}>
+            <h1>update coffie : {supplier} </h1>
+            <form onSubmit={handleUpdateproducts}>
                 <div className="hero min-h-screen ">
                     <div className="bg-orange-200 w-full  ">
                         <div className="card-body mx-auto">
@@ -86,7 +90,7 @@ const UpdateCoffie = () => {
                                 <input type="url" placeholder="imgUrl" name='imgUrl' className="input input-bordered w-full" />
                             </div>
                             <div className="">
-                                <button className="btn btn-warning w-full mt-4">update products</button>
+                                <button className="btn btn-warning w-full mt-4">update</button>
                             </div>
                         </div>
                     </div>
